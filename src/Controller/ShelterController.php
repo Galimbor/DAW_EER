@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Adoptions;
 use App\Entity\Users;
-use App\Form\RegistrationFormType;
+use App\Form\RegistrationFormTypeSecond;
 use App\Repository\AdoptionsRepository;
 use App\Repository\PetcategoriesRepository;
 use App\Repository\PetsRepository;
@@ -148,64 +148,7 @@ class ShelterController extends AbstractController
     }
 
 
-    /**
-     * @Route("/access", name="access")
-     */
-    public function myAccess(NavbarHelper $navbarHelper, AdoptionsRepository  $adoptionsRepository, AuthenticationUtils $authenticationUtils
-    ,Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
-    {
 
-        if ($this->getUser()) {
-            //The user isn't logged in
-            $this->addFlash('error', 'You are already signed in.');
-            return $this->redirectToRoute('pets');
-        } else {
-
-            $navbar = $navbarHelper->retrieveLoggedOutNav();
-
-            $user = new Users();
-            $form = $this->createForm(RegistrationFormType::class, $user);
-            $form->handleRequest($request);
-
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                dump($user);
-                // encode the plain password
-                $user->setPasswordDigest(
-                    $passwordEncoder->encodePassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
-                $user->setCreatedAt(date("Y-m-d H:i:s"));
-                $user->setUpdatedAt(date("Y-m-d H:i:s"));
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
-                // do anything else you need here, like send an email
-                $this->addFlash('success', 'You have registered with success!');
-                return $this->redirectToRoute('pets');
-            }
-            else if($form->isSubmitted() && !$form->isValid())
-            {
-                return $this->render('registration/register.html.twig', [
-                    'registrationForm' => $form->createView(), 'navbar' => $navbar
-                ]);
-//                return $this->render('security/login.html.twig');
-            }
-
-
-            $error = $authenticationUtils->getLastAuthenticationError();
-            // last username entered by the user
-            $lastUsername = $authenticationUtils->getLastUsername();
-
-
-            return $this->render('authenticator/access.html.twig', [
-                'controller_name' => 'BakeryController', 'navbar' => $navbar,'registrationForm' => $form->createView(),
-                'last_username' => $lastUsername, 'error' => $error,
-            ]);
-        }
-    }
 
 
 }

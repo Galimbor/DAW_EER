@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
+use App\Form\RegistrationFormTypeSecond;
 use App\Repository\ProductsRepository;
 use App\Service\Cart;
 use App\Service\NavbarHelper;
@@ -16,7 +17,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/register2", name="app_register2")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param NavbarHelper $navbarHelper
@@ -31,7 +32,7 @@ class RegistrationController extends AbstractController
         }
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
-        dump($form->handleRequest($request));
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 

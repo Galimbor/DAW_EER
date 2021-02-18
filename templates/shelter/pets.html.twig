@@ -97,7 +97,9 @@
                     <div class="overlay">
                         <div class="text">
                             <p>I am {{ pet.name }}</p>
+                            {% if app.user %}
                             <p><a href="{{ path('adopt', {id : pet.id}) }}" style="color: white"><u>Adopt me!</u></a></p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
