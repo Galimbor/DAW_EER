@@ -10,8 +10,6 @@ $(document).ready(function() {
     $(".fullscreen").css("height", window_height)
     $(".fitscreen").css("height", fitscreen);
 
-    //------- Niceselect  js --------//  
-
     if (document.getElementById("default-select")) {
         $('select').niceSelect();
     };
@@ -19,9 +17,14 @@ $(document).ready(function() {
         $('select').niceSelect();
     };
 
-    //------- Lightbox  js --------//  
-
     $('.img-gal').magnificPopup({
+        type: 'image',
+        gallery: {
+            enabled: true
+        }
+    });
+
+    $('.img-pop-up').magnificPopup({
         type: 'image',
         gallery: {
             enabled: true
@@ -36,16 +39,9 @@ $(document).ready(function() {
         fixedContentPos: false
     });
 
-    //------- Datepicker  js --------//  
-
-      $( function() {
-        $( "#datepicker" ).datepicker();
-        $( "#datepicker2" ).datepicker();
-      } );
 
 
-    //------- Superfist nav menu  js --------//  
-
+    // Initiate superfish on nav menu
     $('.nav-menu').superfish({
         animation: {
             opacity: 'show'
@@ -53,48 +49,7 @@ $(document).ready(function() {
         speed: 400
     });
 
-
-    if ( $(".site-content").hasClass("instagram") ) {
-        footerIntagram();
-    }
-
-
-    function footerIntagram(){
-        var feed = new Instafeed({
-            target: "footer-ig-stream",
-            get: "user",
-            limit : 6,
-            resolution: 'standard_resolution',
-            userId: 2159114835,
-            accessToken: "2159114835.9e667eb.7a37f9b944ea4023b94541c661cbf43d",
-            template: '<a href="{{image}}" class="mfp-ig-popup" data-effect="mfp-zoom-in" title="{{title}}"><img src="{{image}}" alt="{{caption}}"></a>',
-            after: function() {
-                $(".mfp-ig-popup").magnificPopup({
-                    type: "image",
-                    removalDelay: 500, //delay removal by X to allow out-animation
-                    image: {
-                        cursor: null
-                    },
-                    gallery: {
-                        enabled: true // set to false to disable gallery
-                    },
-                    callbacks: {
-                        beforeOpen: function() {
-                            // just a hack that adds mfp-anim class to markup 
-                            this.st.image.markup = this.st.image.markup.replace("mfp-figure", "mfp-figure mfp-with-anim");
-                            this.st.mainClass = this.st.el.attr("data-effect");
-                        }
-                    },
-                    midClick: true
-                });
-            }
-        });
-        feed.run();
-    }
-    
-
-    //------- Mobile Nav  js --------//  
-
+    // Mobile Navigation
     if ($('#nav-menu-container').length) {
         var $mobile_nav = $('#nav-menu-container').clone().prop({
             id: 'mobile-nav'
@@ -134,8 +89,7 @@ $(document).ready(function() {
         $("#mobile-nav, #mobile-nav-toggle").hide();
     }
 
-    //------- Smooth Scroll  js --------//  
-
+    // Smooth scroll for the menu and links with .scrollto classes
     $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function() {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
             var target = $(this.hash);
@@ -195,8 +149,7 @@ $(document).ready(function() {
 
     });
 
-    //------- Header Scroll Class  js --------//  
-
+    // Header scroll class
     $(window).scroll(function() {
         if ($(this).scrollTop() > 100) {
             $('#header').addClass('header-scrolled');
@@ -205,17 +158,14 @@ $(document).ready(function() {
         }
     });
 
-    //------- Owl Carusel  js --------//  
-
-
-    $('.active-review-carusel').owlCarousel({
-        items:2,
+    $('.active-testimonial-carusel').owlCarousel({
+        items: 3,
+        loop: true,
         margin: 30,
         dots: true,
+        autoplay: true,
         autoplayHoverPause: true,
-        smartSpeed:650,         
-        autoplay:true,      
-            responsive: {
+        responsive: {
             0: {
                 items: 1
             },
@@ -224,55 +174,56 @@ $(document).ready(function() {
             },
             768: {
                 items: 2,
+            },
+            961: {
+                items: 3,
             }
         }
     });
 
-
-    //------- Timer Countdown  js --------//  
-
-    if (document.getElementById("count")) {
-
-        var countDownDate = new Date("Sep 5, 2018 15:37:25").getTime();
-
-        // Update the count down every 1 second
-        var x = setInterval(function() {
-
-            // Get todays date and time
-            var now = new Date().getTime();
-
-            // Find the distance between now an the count down date
-            var distance = countDownDate - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Display the result in the element with id="count"
-            document.getElementById("count").innerHTML =
-
-                "<div class='col'><span>" + days + "</span><br> Days " + "</div>" + "<div class='col'><span>" + hours + "</span><br> Hours " + "</div>" + "<div class='col'><span>" + minutes + "</span><br> Minutes " + "</div>" + "<div class='col'><span>" + seconds + "</span><br> Seconds </div>";
-
-            // If the count down is finished, write some text
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("count").innerHTML = "EXPIRED";
+    $('.active-image-carusel').owlCarousel({
+        items: 4,
+        loop: true,
+        dots: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        responsive: {
+            0: {
+                items: 1
+            },
+            480: {
+                items: 1,
+            },
+            768: {
+                items: 2,
+            },
+            900: {
+                items: 4,
             }
-        }, 1000);
 
-    }
+        }
+    });
 
-    //------- Google Map  js --------//  
+    //  Start Google map 
+
+    // When the window has finished loading create our google map below
 
     if (document.getElementById("map")) {
+
         google.maps.event.addDomListener(window, 'load', init);
 
         function init() {
+            // Basic options for a simple Google Map
+            // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
             var mapOptions = {
+                // How zoomed in you want the map to start at (always required)
                 zoom: 11,
+
+                // The latitude and longitude to center the map (always required)
                 center: new google.maps.LatLng(40.6700, -73.9400), // New York
+
+                // How you would like to style the map. 
+                // This is where you would paste any style found on Snazzy Maps.
                 styles: [{
                     "featureType": "water",
                     "elementType": "geometry",
@@ -390,8 +341,15 @@ $(document).ready(function() {
                     }]
                 }]
             };
+
+            // Get the HTML DOM element that will contain your map 
+            // We are using a div with id="map" seen below in the <body>
             var mapElement = document.getElementById('map');
+
+            // Create the Google Map using our element and options defined above
             var map = new google.maps.Map(mapElement, mapOptions);
+
+            // Let's also add a marker while we're at it
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(40.6700, -73.9400),
                 map: map,
@@ -399,8 +357,6 @@ $(document).ready(function() {
             });
         }
     }
-
-    //------- Mailchimp js --------//  
 
     $(document).ready(function() {
         $('#mc_embed_signup').find('form').ajaxChimp();
