@@ -25,7 +25,7 @@ class SecurityControlerAuthenticator extends AbstractFormLoginAuthenticator impl
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'access';
-
+    public const LOGIN_ROUTE_second = 'app_login';
     private $entityManager;
     private $urlGenerator;
     private $csrfTokenManager;
@@ -41,8 +41,8 @@ class SecurityControlerAuthenticator extends AbstractFormLoginAuthenticator impl
 
     public function supports(Request $request)
     {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route')
-            && $request->isMethod('POST');
+        return self::LOGIN_ROUTE === $request->attributes->get('_route') || self::LOGIN_ROUTE_second === $request->attributes->get('_route')
+            && $request->isMethod('POST')  ;
     }
 
     public function getCredentials(Request $request)
