@@ -41,7 +41,7 @@ class SecurityControlerAuthenticator extends AbstractFormLoginAuthenticator impl
 
     public function supports(Request $request)
     {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route') || self::LOGIN_ROUTE_second === $request->attributes->get('_route')
+        return (self::LOGIN_ROUTE === $request->attributes->get('_route') || self::LOGIN_ROUTE_second === $request->attributes->get('_route') )
             && $request->isMethod('POST')  ;
     }
 
