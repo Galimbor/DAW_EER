@@ -165,7 +165,7 @@ class ShelterController extends AbstractController
 
             $user = new Users();
             $form = $this->createForm(RegistrationFormType::class, $user);
-//            dump($form->handleRequest($request));
+            $form->handleRequest($request);
 
 
             if ($form->isSubmitted() && $form->isValid()) {
