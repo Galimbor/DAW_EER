@@ -45,10 +45,10 @@ class NavbarHelper extends AbstractController
 
 
         $navbar['menu3'] = "Login";
-        $navbar['menu3link'] = 'href="' . $this->generateUrl('access'). '"';
+        $navbar['menu3link'] = 'href="' . $this->generateUrl('access', array('method' => 'login')). '"';
 
         $navbar['menu4'] = "Register";
-        $navbar['menu4link'] = 'href="' . $this->generateUrl('access'). '"';
+        $navbar['menu4link'] = 'href="' . $this->generateUrl('access', array('method' => 'register')). '"';
 
         $navbar['menu5'] = "";
         $navbar['menu5link'] = '';

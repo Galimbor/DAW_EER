@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AuthenticateController extends AbstractController
 {
     /**
-     * @Route("/access", name="access")
+     * @Route("/access/{method}", name="access")
      * @param NavbarHelper $navbarHelper
      * @param AuthenticationUtils $authenticationUtils
      * @param Request $request
@@ -24,7 +24,7 @@ class AuthenticateController extends AbstractController
      * @return Response
      */
     public function myAccess(NavbarHelper $navbarHelper, AuthenticationUtils $authenticationUtils
-        ,Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+        , Request $request, UserPasswordEncoderInterface $passwordEncoder, $method): Response
     {
 
         if ($this->getUser()) {
@@ -34,6 +34,7 @@ class AuthenticateController extends AbstractController
         } else {
 
             $navbar = $navbarHelper->retrieveLoggedOutNav();
+
 
             $user = new Users();
             $form = $this->createForm(RegistrationFormType::class, $user);
@@ -56,24 +57,24 @@ class AuthenticateController extends AbstractController
                 // do anything else you need here, like send an email
                 $this->addFlash('success', 'You have registered with success!');
                 return $this->redirectToRoute('pets');
-            }
-            else if($form->isSubmitted() && !$form->isValid())
-            {
+            } else if ($form->isSubmitted() && !$form->isValid()) {
+                $method = "register";
                 return $this->render('authenticator/access.html.twig', [
-                    'controller_name' => 'BakeryController', 'navbar' => $navbar,'registrationForm' => $form->createView(),
-                    'last_username' => null, 'error' => null,
+                    'controller_name' => 'BakeryController', 'navbar' => $navbar, 'registrationForm' => $form->createView(),
+                    'last_username' => null, 'error' => null, 'method' => $method
                 ]);
             }
 
 
             $error = $authenticationUtils->getLastAuthenticationError();
+            if($error != null) $method = "login";
             // last username entered by the user
             $lastUsername = $authenticationUtils->getLastUsername();
 
 
             return $this->render('authenticator/access.html.twig', [
-                'controller_name' => 'BakeryController', 'navbar' => $navbar,'registrationForm' => $form->createView(),
-                'last_username' => $lastUsername, 'error' => $error,
+                'controller_name' => 'BakeryController', 'navbar' => $navbar, 'registrationForm' => $form->createView(),
+                'last_username' => $lastUsername, 'error' => $error, 'method' => $method
             ]);
         }
     }

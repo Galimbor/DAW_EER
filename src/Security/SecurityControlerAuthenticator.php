@@ -105,6 +105,6 @@ class SecurityControlerAuthenticator extends AbstractFormLoginAuthenticator impl
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->urlGenerator->generate(self::LOGIN_ROUTE, array('method' => "login"));
     }
 }
